@@ -5,6 +5,7 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Modal Component
+
 const Modal = ({ show, onClose, title, children }) => {
   return (
     <AnimatePresence>
@@ -41,6 +42,14 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
+  const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }));
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -83,7 +92,8 @@ const Navbar = () => {
     }
   }, [location]);
 
-  const sections = ["home", "about", "menu", "gallery", "events", "contact"];
+  // const sections = ["home", "about", "menu", "gallery", "events", "contact"];
+  const sections = ["home", "about", "menu", "gallery", "contact"];
 
   return (
     <>
@@ -113,12 +123,9 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex gap-4 items-center">
-            <button
-              className="bg-yellow-400 text-white hover:text-gray-900 font-bold px-6 py-2 rounded-full cursor-pointer"
-              onClick={() => setShowBooking(true)}
-            >
-              Book Table
-            </button>
+            <div className="bg-yellow-400 text-white font-bold px-6 py-2 rounded-full">
+              {time}
+            </div>
           </div>
 
           <button
@@ -144,21 +151,15 @@ const Navbar = () => {
             </button>
           ))}
           <div className="mt-8">
-            <button
-              className="bg-yellow-400 text-black font-bold px-6 py-2 rounded-full"
-              onClick={() => {
-                closeMenu();
-                setShowBooking(true);
-              }}
-            >
-              Book Table
-            </button>
+            <div className="bg-yellow-400 text-white font-bold px-6 py-2 rounded-full">
+              {time}
+            </div>
           </div>
         </div>
       </header>
 
       {/* Booking Table Modal */}
-      <Modal
+      {/* <Modal
         show={showBooking}
         onClose={() => setShowBooking(false)}
         title="Book a Table"
@@ -207,7 +208,7 @@ const Navbar = () => {
             Confirm Booking
           </button>
         </form>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

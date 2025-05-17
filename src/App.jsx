@@ -9,7 +9,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Reviews from './components/Reviews';
 import BookSeat from './components/BookSeat';
-import MenuPage from './components/Menu';
+import MenuPage from './components/Menu_old';
 import Menu from './components/Menu';
 import Offers from './components/Offers';
 
@@ -24,10 +24,10 @@ function Home(){
         <Hero/>
         <About/>
         <Gallery />
-        <Offers/>
-        <Events />
+        {/* <Offers/> */}
+        {/* <Events /> */}
         <Reviews/>
-        <BookSeat/>
+        {/* <BookSeat/> */}
         <Contact />
         <Footer />
         </>
