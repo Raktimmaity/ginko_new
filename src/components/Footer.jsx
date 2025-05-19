@@ -29,7 +29,7 @@ const Footer = () => (
       {/* Newsletter & Socials */}
       <div>
         <h3 className="text-yellow-400 text-lg font-medium mb-2">Stay Connected</h3>
-        <form className="flex flex-col space-y-2">
+        {/* <form className="flex flex-col space-y-2">
           <input
             type="email"
             placeholder="Your email"
@@ -41,7 +41,7 @@ const Footer = () => (
           >
             Subscribe
           </button>
-        </form>
+        </form> */}
         <div className="flex items-center gap-4 mt-4 text-white text-lg">
           <p className="text-sm text-yellow-400">Follow Us:</p>
           <a href="https://www.facebook.com/iammissginko/" target="_blank"><i className="fa-brands fa-facebook-f hover:text-white transition"></i></a>
