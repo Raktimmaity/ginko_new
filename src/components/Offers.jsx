@@ -113,7 +113,7 @@ const Offers = () => {
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
           onClick={handleClickOutside}
         >
-          <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg w-full max-w-4xl flex gap-6 relative">
+          <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg w-full max-w-4xl flex gap-6 flex-col md:flex-row relative">
             {/* Close Button */}
             <button
               onClick={closeModal}
