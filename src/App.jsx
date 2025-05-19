@@ -26,7 +26,7 @@ function Home(){
         <About/>
         <Services />
         <Gallery />
-        {/* <Offers/> */}
+        <Offers/>
         {/* <Events /> */}
         <Reviews/>
         {/* <BookSeat/> */}

@@ -1,114 +1,162 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { motion, number } from "framer-motion";
-import rain from "../assets/img/rain.jpg"; // Import the image
-import clear from "../assets/img/clear.jpg"; // Import the image
-import snow from "../assets/img/snow.jpg"; // Import the image
-import normal from "../assets/img/normal.jpg"; // Import the image
+import React, { useState } from "react";
+import { XCircle } from "lucide-react";
 
-const RealTimeOffers = () => {
-  const [weather, setWeather] = useState(null);
-  const [offer, setOffer] = useState(null);
+const offers = [
+  {
+    title: "PRE-BOOK OFFER",
+    discount: "Flat 20% OFF",
+    details: "Valid from 1:30PM to 11:55PM today. Booking required.",
+  },
+  {
+    title: "INSTANT OFFER",
+    discount: "Flat 10% OFF",
+    details: "on bill payments.",
+  },
+  {
+    title: "SURPRISE",
+    discount: "Get a scratch card",
+    details: "after every transaction.",
+  },
+  {
+    title: "EXCLUSIVE OFFER",
+    discount: "Flat 10% OFF",
+    details: "valid on your next dining payment.",
+  },
+  {
+    title: "BANK OFFER",
+    discount: "20% OFF up to ₹1200",
+    details: "on Credit Cards and more with other banks.",
+    bankOffers: [
+      {
+        title: "Paytm UPI",
+        detail: "Get Assured ₹10 cashback up to ₹100 using Paytm UPI.",
+      },
+      {
+        title: "IDBI Bank Credit Cards",
+        detail: "Get 15% OFF up to ₹500. Valid on ₹3000 or more.",
+      },
+      {
+        title: "HSBC TravelOne Credit Card",
+        detail: "Get 10% OFF up to ₹1000. Valid through the app.",
+      },
+      {
+        title: "Federal Bank Credit Cards",
+        detail: "Get 10% OFF up to ₹500. Valid on ₹3000 or more.",
+      },
+      {
+        title: "Amazon Pay Balance",
+        detail: "₹25 cashback up to ₹125. Valid on ₹200 or more.",
+      },
+      {
+        title: "MobiKwik UPI",
+        detail: "₹50 instant cashback. Valid on ₹1500 or more.",
+      },
+    ],
+  },
+];
 
-  const apiKey = "de9417fb44d744b1fe08fb2a805f329b"; // Replace with your actual API key
-  const city = "Kolkata"; // Set the city for the weather forecast
+const offerTerms = [
+  "Applicable for today.",
+  "Cannot be combined with other offers or offline deals.",
+  "Not applicable to bottled drinks, buffets, seasonal items, or special menus.",
+  "Additional service charges may apply.",
+  "Subject to restaurant's discretion.",
+  "Other T&Cs may apply.",
+];
 
-  // Fetch weather data from OpenWeatherMap API
-  const fetchWeatherData = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-      );
-      setWeather(response.data);
-    } catch (error) {
-      console.error("Error fetching weather data:", error);
+const Offers = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState(null);
+
+  const handleOfferClick = (offer) => {
+    setSelectedOffer(offer);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedOffer(null);
+  };
+
+  const handleClickOutside = (e) => {
+    if (e.target.id === "modal-overlay") {
+      closeModal();
     }
   };
 
-  // Determine the offer based on weather conditions
-  useEffect(() => {
-    fetchWeatherData();
-  }, []);
-
-  useEffect(() => {
-    if (weather) {
-      const temp = weather.main.temp;
-    //   const weatherCondition = "normal"; // Static condition for demonstration
-        const weatherCondition = weather.weather[0].main.toLowerCase();
-
-      if (weatherCondition === "rain" || temp < 10) {
-        setOffer({
-          title: "Rainy Day Discount",
-          description: "Enjoy 20% off on all food items!",
-          image: rain, // Use the imported `rain` image here
-          number: "20%"
-        });
-      } else if (weatherCondition === "clear" && temp > 25) {
-        setOffer({
-          title: "Summer Special",
-          description: "Get a free cold drink with every main course!",
-          image: clear,
-          number: "Free Cold Drink"
-        });
-      } else if (weatherCondition === "snow" || temp <= 0) {
-        setOffer({
-          title: "Winter Special",
-          description:
-            "Warm up with a free hot beverage on us with every meal!",
-          image: snow,
-          number: "Free Hot Beverage"
-        });
-      } else {
-        setOffer({
-          title: "Standard Offer",
-          description: "Get 10% off on your next visit!",
-          image: normal,
-          number: "10%"
-        });
-      }
-    }
-  }, [weather]);
-
-  if (!offer) {
-    return <div>Loading offers...</div>;
-  }
-
   return (
-    <section
-      id="real-time-offers"
-      className="bg-gray-900 text-white py-16 px-4"
-    >
+    <section className="bg-black py-16 px-4 text-white">
       <div className="container mx-auto max-w-6xl">
-        <h2 className="text-4xl text-white font-bold text-center mb-10 relative inline-block after:block after:w-24 after:h-1 after:bg-yellow-400 after:mt-2 after:mx-auto">
-          Special<span className="text-yellow-400"> Offers</span>
+        <h2 className="text-4xl font-bold text-center mb-12">
+          Today's <span className="text-yellow-400">Offers</span>
         </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {offers.map((offer, index) => (
+            <div
+              key={index}
+              className="bg-gray-800 rounded-lg p-6 hover:bg-yellow-400 hover:text-black transition duration-300 shadow-lg cursor-pointer"
+              onClick={() => handleOfferClick(offer)}
+            >
+              <h3 className="text-xl font-semibold mb-4 text-yellow-400">
+                {offer.title}
+              </h3>
+              <p className="text-2xl font-bold mb-2">{offer.discount}</p>
+              <p className="text-sm mb-2">{offer.details}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        <motion.div
-          className="p-6 rounded-lg shadow-lg hover:shadow-yellow-400/30 transition relative overflow-hidden"
-          whileHover={{ scale: 1.05 }}
-          style={{
-            backgroundImage: `url(${offer.image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+      {showModal && selectedOffer && (
+        <div
+          id="modal-overlay"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={handleClickOutside}
         >
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg w-full max-w-4xl flex gap-6 relative">
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
+            >
+              <XCircle className="w-6 h-6" />
+            </button>
 
-          {/* Content on top */}
-          <div className="relative z-10">
-            <div className="mt-32">
-                <h3 className="text-4xl font-semibold mb-2">{offer.title}</h3>
-                    <span className=" bg-yellow-400 text-black px-6 py-2 rounded-full text-center font-semibold hover:bg-yellow-500 mt-2 mb-4">
-                        {offer.number}
-                    </span>
-                <p className="text-gray-300 mb-4 mt-7 text-lg">{offer.description}</p>
+            {/* Modal Content */}
+            <div className="flex-1">
+              <h3 className="text-2xl font-bold mb-4 text-yellow-400">
+                {selectedOffer.title} - {selectedOffer.discount}
+              </h3>
+              <p className="mb-4">{selectedOffer.details}</p>
+
+              {selectedOffer.title === "BANK OFFER" && (
+                <>
+                  <h4 className="font-bold mb-2">Bank Offers:</h4>
+                  <ul className="list-disc list-inside text-sm space-y-1">
+                    {selectedOffer.bankOffers?.map((bankOffer, idx) => (
+                      <li key={idx}>
+                        <span className="font-semibold">{bankOffer.title}:</span> {bankOffer.detail}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+
+            {/* Terms Section */}
+            <div className="flex-1 bg-gray-500 p-4 rounded-lg overflow-y-auto">
+              <h4 className="font-bold mb-2">Terms & Conditions:</h4>
+              <ul className="list-disc list-inside text-sm space-y-1">
+                {offerTerms.map((term, idx) => (
+                  <li key={idx}>{term}</li>
+                ))}
+              </ul>
             </div>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      )}
     </section>
   );
 };
 
-export default RealTimeOffers;
+export default Offers;

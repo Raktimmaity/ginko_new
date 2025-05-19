@@ -59,7 +59,7 @@ const Gallery = () => {
   }, [lightboxImage]);
 
   return (
-    <section id="gallery" className="bg-black text-white py-16 px-4">
+    <section id="gallery" className="bg-gray-800 text-white py-16 px-4">
       <div className="container mx-auto">
         <h2 className="text-4xl text-yellow-400 font-bold text-center mb-10">
           Gallery
