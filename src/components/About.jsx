@@ -15,6 +15,7 @@ const About = () => {
             src={aboutImage}
             alt="Bar Interior"
             className="relative z-10 w-[550px] md:w-[350px] h-auto rounded-xl shadow-lg transform transition-transform duration-700 ease-in-out hover:scale-105"
+            loading="lazy"
           />
         </div>
 

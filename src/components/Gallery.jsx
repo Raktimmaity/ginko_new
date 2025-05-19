@@ -77,6 +77,7 @@ const Gallery = () => {
                 src={img.src}
                 alt={img.caption}
                 className="w-full h-64 object-cover transition-transform duration-300"
+                loading='lazy'
               />
               <div className="absolute inset-0 bg-black/60 bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
                 <span className="text-yellow-400 text-lg font-semibold text-center px-2">
