@@ -12,6 +12,7 @@ import BookSeat from './components/BookSeat';
 import MenuPage from './components/Menu_old';
 import Menu from './components/Menu';
 import Offers from './components/Offers';
+import Services from './components/Services';
 
 function Home(){
 
@@ -23,6 +24,7 @@ function Home(){
         <Navbar/>
         <Hero/>
         <About/>
+        <Services />
         <Gallery />
         {/* <Offers/> */}
         {/* <Events /> */}

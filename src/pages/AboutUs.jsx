@@ -25,13 +25,11 @@ const About = () => {
           </h2>
 
           <p className="text-gray-300 leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi eius
-            doloremque, non perferendis omnis illo rerum accusamus officiis, eos
-            ut natus quis iusto vitae commodi. Commodi dolores iure voluptas
-            enim. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Adipisci maxime commodi et ea, placeat nihil laborum fugit harum
-            suscipit, amet quod minima consequatur odit quaerat quia, ipsum
-            eveniet! Non, veritatis?
+            Asian, Chinese, Thai, Momos, Salad, Desserts, and more. People Say
+            This Place Is Known For Good Music, Elaborate Menu, Customizable
+            Food, Fresh Food, Good Quality Average Cost ₹1,500 for two people
+            (approx.) with alcohol. Exclusive of applicable taxes and charges, if any. Non-vegetarian
+            Cuisine. Asian, Chinese, Thai, Momos, Salad, Desserts, and more.
           </p>
         </div>
       </div>

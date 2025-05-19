@@ -1,4 +1,5 @@
 import React from "react";
+import ZomatoIcon from "../assets/img/zomato_icon.jpg";
 
 const Footer = () => (
   <footer className="bg-gray-900 text-white pt-10 pb-6">
@@ -45,6 +46,7 @@ const Footer = () => (
           <p className="text-sm text-yellow-400">Follow Us:</p>
           <a href="https://www.facebook.com/iammissginko/" target="_blank"><i className="fa-brands fa-facebook-f hover:text-white transition"></i></a>
           <a href="https://www.instagram.com/iammissginko?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i className="fa-brands fa-instagram hover:text-white transition"></i></a>
+          <a href="https://www.zomato.com/kolkata/miss-ginko-ballygunge" target="_blank"><img src={ZomatoIcon} alt="Zomato" className="w-8 h-8 rounded-full" /></a>
         </div>
       </div>
     </div>
