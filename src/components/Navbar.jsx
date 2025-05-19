@@ -123,7 +123,7 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex gap-4 items-center">
-            <div className="bg-yellow-400 text-white font-bold px-6 py-2 rounded-full">
+            <div className="bg-yellow-400 text-gray-900 font-bold px-6 py-2 rounded-full">
               {time}
             </div>
           </div>
@@ -151,7 +151,7 @@ const Navbar = () => {
             </button>
           ))}
           <div className="mt-8">
-            <div className="bg-yellow-400 text-white font-bold px-6 py-2 rounded-full">
+            <div className="bg-yellow-400 text-gray-900 font-bold px-6 py-2 rounded-full">
               {time}
             </div>
           </div>

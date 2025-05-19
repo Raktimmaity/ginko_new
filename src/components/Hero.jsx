@@ -54,25 +54,25 @@ const Hero = () => {
     switch (status) {
       case 'openingSoon':
         return (
-          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-xl bg-yellow-600 animate-pulse">
+          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-full bg-yellow-600 animate-pulse">
             Opening Soon at 12:00 PM
           </div>
         );
       case 'closingSoon':
         return (
-          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-xl bg-orange-600 animate-pulse">
+          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-full bg-orange-600 animate-pulse">
             Closing Soon at 11:15 PM
           </div>
         );
       case 'open':
         return (
-          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-xl bg-green-600 animate-pulse">
-            We are Open Now
+          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-full bg-green-600 animate-pulse">
+            Open Now
           </div>
         );
       default:
         return (
-          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-xl bg-red-600">
+          <div className="mb-6 font-semibold inline-block py-2 px-4 rounded-full bg-red-600">
             Currently Closed
           </div>
         );
@@ -98,7 +98,7 @@ const Hero = () => {
       </video>
 
       {/* Overlay */}
-      <div className="absolute top-0 left-0 w-full h-full mix-blend-multiply bg-gray-400 z-10" />
+      <div className="absolute top-0 left-0 w-full h-full mix-blend-multiply bg-gray-500 z-10" />
 
       {/* Content */}
       <motion.div

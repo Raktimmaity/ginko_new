@@ -1,33 +1,43 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
-import avator from '../assets/img/avator.jpg';
+import avator1 from '../assets/img/avator1.jpg';
+import avator2 from '../assets/img/avator2.jpg';
+import avator3 from '../assets/img/avator3.jpg';
+import avator4 from '../assets/img/avator4.jpg';
+import avator5 from '../assets/img/avator5.jpg';
 
 const testimonials = [
   {
-    name: "John Doe",
-    avatar: "/avatars/avatar1.jpg",
+    name: "Gaurab Majumdar",
+    avatar: avator1,
     review: "Amazing vibes and great music. Will definitely come back!",
     rating: 5,
   },
   {
-    name: "Peter Smith",
-    avatar: "/avatars/avatar2.jpg",
-    review: "Loved the cocktails and ambience!",
+    name: "Bidisha",
+    avatar: avator2,
+    review: "This was my second visit to the place, love the vibes and absolutely love the food, the cocktails can be better though given the price points. The calamari was delicious and I absolutely loved the Yakuza Roll ❤️",
     rating: 4,
   },
   {
-    name: "Sophia Johnson",
-    avatar: "/avatars/avatar3.jpg",
-    review: "Fantastic service and a great crowd. Highly recommend!",
+    name: "Kash Bhattacharyya",
+    avatar: avator3,
+    review: "We went to Miss Ginko to try their Valentine's Day special meal, and it was a fantastic experience🤩! The atmosphere is absolutely Instagram-worthy, with photo opportunities around every corner😁. The food and service were excellent, and the staff was exceptionally nice😍. Their sushi is incredible—by far the finest I've ever had! Every meal I tried was equally impressive😎. So celebrate Valentine's Day this year at the stylish and modern 'Miss Ginko'😃. The menu includes 5 courses...here can you get a salad, sushi, two tapas, a main course, and a dessert. Not only that, but you can choose a fun activity like painting, cooking, or making sushi with your Valentine ❤️. It sounds enjoyable, doesn't it?🔥",
     rating: 5,
   },
   {
-    name: "David Kim",
-    avatar: "/avatars/avatar4.jpg",
-    review: "A go-to spot for weekend nights!",
-    rating: 4,
+    name: "Srijon Bardhan",
+    avatar: avator4,
+    review: "EXTREMELY EXPENSIVE PLACE ALERT. This Restro-pub in Gariahat is set in a futuristic year where INR 1100 is same as INR 500. This place is dark and loud at night. They have live music everyday from 10pm onwards. Food is good but very less in quantity. It's like a boutique restaurant. Any dish you buy is minimum INR 400 for veg and min INR 550 for non veg. Drinks are priced out of this world. A pint of beer is minimum INR 700 and their LIIT is INR 1100 and they don't even serve it in a mug but just in a small tall glass. They didn't keep the drinks menu in Zomato because if you know you may not go. So I am putting their drinks menu for other users and some photos of foods I had here. This is not a family friendly place. Its more a pub and less a restaurant.",
+    rating: 3,
   },
+  {
+    name: "Roshmi Bag",
+    avatar: avator5,
+    review: "This is the 2nd time I visited this place. Although a little overpriced, the food tastes amazing, so do the drinks. And the ambiance is to die for.",
+    rating: 5,
+  }
 ];
 
 const Reviews = () => {
@@ -67,34 +77,49 @@ const Reviews = () => {
             className="flex transition-transform ease-in-out duration-700"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                className="w-full flex-shrink-0 px-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-yellow-400/30 transition text-center">
-                  <img
-                    // src={t.avatar}
-                    src={avator}
-                    alt={t.name}
-                    className="w-16 h-16 rounded-full mx-auto mb-4 border-2 border-yellow-400"
-                  />
-                  <div className="flex justify-center gap-1 text-yellow-400 mb-3">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} size={18} fill="currentColor" />
-                    ))}
+            {testimonials.map((t, i) => {
+              const [isExpanded, setIsExpanded] = useState(false);
+              const toggleExpand = () => setIsExpanded(!isExpanded);
+              const isLongReview = t.review.length > 150;
+              const displayedReview = isExpanded ? t.review : `${t.review.slice(0, 150)}...`;
+
+              return (
+                <motion.div
+                  key={i}
+                  className="w-full flex-shrink-0 px-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-yellow-400/30 transition text-center">
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className="w-16 h-16 rounded-full mx-auto mb-4 border-2 border-yellow-400"
+                    />
+                    <div className="flex justify-center gap-1 text-yellow-400 mb-3">
+                      {Array.from({ length: t.rating }).map((_, i) => (
+                        <Star key={i} size={18} fill="currentColor" />
+                      ))}
+                    </div>
+                    <p className="text-gray-300 mb-4 italic">
+                      "{displayedReview}"
+                      {isLongReview && (
+                        <span
+                          onClick={toggleExpand}
+                          className="text-yellow-400 cursor-pointer ml-2 font-extrabold"
+                        >
+                          {isExpanded ? 'Read Less' : 'Read More'}
+                        </span>
+                      )}
+                    </p>
+                    <p className="font-semibold text-yellow-400">- {t.name}</p>
                   </div>
-                  <p className="text-gray-300 mb-4 italic">"{t.review}"</p>
-                  <p className="font-semibold text-yellow-400">- {t.name}</p>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
 
-          {/* Arrows */}
           <button
             onClick={prev}
             className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-yellow-400 p-2 rounded-full text-black hover:bg-yellow-500"
@@ -108,14 +133,11 @@ const Reviews = () => {
             <ChevronRight size={20} />
           </button>
 
-          {/* Dot indicators */}
           <div className="flex justify-center mt-6 gap-2">
             {testimonials.map((_, i) => (
               <span
                 key={i}
-                className={`w-3 h-3 rounded-full ${
-                  i === currentIndex ? 'bg-yellow-400' : 'bg-gray-600'
-                }`}
+                className={`w-3 h-3 rounded-full ${i === currentIndex ? 'bg-yellow-400' : 'bg-gray-600'}`}
               />
             ))}
           </div>
