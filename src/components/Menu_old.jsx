@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TomYumSoup from "../assets/img/Tom_yum_soup.jpg";
-import Suanlatang from "../assets/img/Suan-La-tang.jpg";
+import Suanlatang from "../assets/img/Suan-La-Tang.jpg";
 
 const menuItems = [
   // Non-veg
