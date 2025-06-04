@@ -108,7 +108,7 @@ const Bookings = () => {
           />
 
           <motion.div
-            className="absolute left-[calc(1rem-6px)] w-3 h-3 bg-yellow-400 rounded-full shadow-lg"
+            className="absolute left-[calc(1rem-5px)] w-3 h-3 bg-yellow-600 rounded-full shadow-lg border"
             style={{ top: dotPosition }}
             initial={{ scale: 0.8, y: -6 }}
             animate={{ scale: [1, 1.3, 1], y: [0, -8, 0] }}
