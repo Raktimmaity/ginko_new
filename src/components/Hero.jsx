@@ -64,6 +64,22 @@ const Hero = () => {
     }
   };
 
+  // --- New helper functions for date/time min/max ---
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  const getMaxDate = () => {
+    const maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() + 7);
+    return maxDate.toISOString().split("T")[0];
+  };
+
+  const openingTime = "12:00";
+  const closingTime = "23:15";
+  // ---------------------------------------------------
+
   useEffect(() => {
     checkBarStatus();
     const interval = setInterval(checkBarStatus, 1000);
@@ -173,15 +189,21 @@ const Hero = () => {
             className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
             required
           />
+          {/* Updated Date Input with min/max */}
           <input
             type="date"
             className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
             required
+            min={getTodayDate()}
+            max={getMaxDate()}
           />
+          {/* Updated Time Input with min/max */}
           <input
             type="time"
             className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
             required
+            min={openingTime}
+            max={closingTime}
           />
           <input
             type="number"
