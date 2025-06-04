@@ -13,6 +13,7 @@ import MenuPage from './components/Menu_old';
 import Menu from './components/Menu';
 import Offers from './components/Offers';
 import Services from './components/Services';
+import Bookings from './pages/Bookings';
 
 function Home(){
 
@@ -41,6 +42,16 @@ function Home(){
         <>
           <Navbar/>
           <Menu/>
+          <Footer/>
+        </>
+      )
+    },
+    {
+      path: "/bookings",
+      element:(
+        <>
+          <Navbar/>
+          <Bookings/>
           <Footer/>
         </>
       )

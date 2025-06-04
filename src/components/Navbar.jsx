@@ -68,6 +68,8 @@ const Navbar = () => {
       navigate("/");
     } else if (section === "menu") {
       navigate("/menu");
+    } else if (section === "bookings") {
+    navigate("/bookings"); // <-- Added route for My Bookings
     } else {
       if (location.pathname === "/") {
         scroller.scrollTo(section, {
@@ -93,7 +95,7 @@ const Navbar = () => {
   }, [location]);
 
   // const sections = ["home", "about", "menu", "gallery", "events", "contact"];
-  const sections = ["home", "about", "menu", "gallery", "contact"];
+  const sections = ["home", "about", "menu", "gallery", "contact", "bookings"];
 
   return (
     <>
