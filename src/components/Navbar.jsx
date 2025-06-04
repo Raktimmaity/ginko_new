@@ -1,12 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { scroller } from "react-scroll";
 import { Menu, X } from "lucide-react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Modal Component
+const Modal = ({ show, onClose, title, children, footer }) => {
+  const modalRef = useRef();
 
-const Modal = ({ show, onClose, title, children }) => {
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    if (show) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [show, onClose]);
+
   return (
     <AnimatePresence>
       {show && (
@@ -17,6 +30,7 @@ const Modal = ({ show, onClose, title, children }) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
+            ref={modalRef}
             className="bg-white text-black rounded-2xl w-[90%] max-w-md p-6 relative shadow-xl"
             initial={{ scale: 0.9, y: -30, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
@@ -31,6 +45,11 @@ const Modal = ({ show, onClose, title, children }) => {
             </button>
             <h2 className="text-2xl font-bold mb-4 text-center">{title}</h2>
             {children}
+            {footer && (
+              <div className="mt-4 text-sm text-center text-gray-600">
+                {footer}
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}
@@ -41,15 +60,8 @@ const Modal = ({ show, onClose, title, children }) => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showBooking, setShowBooking] = useState(false);
-  const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }));
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -69,7 +81,7 @@ const Navbar = () => {
     } else if (section === "menu") {
       navigate("/menu");
     } else if (section === "bookings") {
-    navigate("/bookings"); // <-- Added route for My Bookings
+      navigate("/bookings");
     } else {
       if (location.pathname === "/") {
         scroller.scrollTo(section, {
@@ -94,7 +106,6 @@ const Navbar = () => {
     }
   }, [location]);
 
-  // const sections = ["home", "about", "menu", "gallery", "events", "contact"];
   const sections = ["home", "about", "menu", "gallery", "contact", "bookings"];
 
   return (
@@ -125,9 +136,18 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex gap-4 items-center">
-            <div className="bg-yellow-400 text-gray-900 font-bold px-6 py-2 rounded-full">
-              {time}
-            </div>
+            <button
+              onClick={() => setShowLogin(true)}
+              className="px-4 py-2 text-sm font-bold rounded-full bg-transparent border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-gray-900 transition"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => setShowSignup(true)}
+              className="px-4 py-2 text-sm font-bold rounded-full bg-yellow-400 text-gray-900 hover:bg-yellow-500 transition"
+            >
+              Signup
+            </button>
           </div>
 
           <button
@@ -152,65 +172,123 @@ const Navbar = () => {
               {section.charAt(0).toUpperCase() + section.slice(1)}
             </button>
           ))}
-          <div className="mt-8">
-            <div className="bg-yellow-400 text-gray-900 font-bold px-6 py-2 rounded-full">
-              {time}
-            </div>
+          <div className="flex gap-6 mt-8">
+            <button
+              onClick={() => {
+                setShowLogin(true);
+                closeMenu();
+              }}
+              className="px-4 py-2 font-bold rounded-full border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-gray-900 transition"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => {
+                setShowSignup(true);
+                closeMenu();
+              }}
+              className="px-4 py-2 font-bold rounded-full bg-yellow-400 text-gray-900 hover:bg-yellow-500 transition"
+            >
+              Signup
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Booking Table Modal */}
-      {/* <Modal
-        show={showBooking}
-        onClose={() => setShowBooking(false)}
-        title="Book a Table"
+      {/* Login Modal */}
+      <Modal
+        show={showLogin}
+        onClose={() => setShowLogin(false)}
+        title="Login"
+        footer={
+          <>
+            Don&apos;t have an account?{" "}
+            <button
+              className="text-yellow-500 underline hover:text-yellow-600"
+              onClick={() => {
+                setShowLogin(false);
+                setShowSignup(true);
+              }}
+            >
+              Sign up
+            </button>
+          </>
+        }
       >
         <form className="space-y-4">
-          <select
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-            required
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full px-4 py-2 border border-gray-400 rounded outline-none"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full px-4 py-2 border border-gray-400 rounded outline-none"
+          />
+          <button
+            type="submit"
+            className="w-full bg-yellow-400 text-white py-2 rounded font-bold hover:bg-yellow-500"
+            onClick={(e) => {
+              e.preventDefault();
+              alert("Login submitted");
+              setShowLogin(false);
+            }}
           >
-            <option value="">Select Area</option>
-            <option value="bar">Bar</option>
-            <option value="restaurant">Restaurant</option>
-          </select>
+            Login
+          </button>
+        </form>
+      </Modal>
+
+      {/* Signup Modal */}
+      <Modal
+        show={showSignup}
+        onClose={() => setShowSignup(false)}
+        title="Signup"
+        footer={
+          <>
+            Already registered?{" "}
+            <button
+              className="text-yellow-500 underline hover:text-yellow-600"
+              onClick={() => {
+                setShowSignup(false);
+                setShowLogin(true);
+              }}
+            >
+              Login
+            </button>
+          </>
+        }
+      >
+        <form className="space-y-4">
           <input
             type="text"
             placeholder="Full Name"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
+            className="w-full px-4 py-2 border border-gray-400 rounded outline-none"
           />
           <input
             type="email"
             placeholder="Email"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
+            className="w-full px-4 py-2 border border-gray-400 rounded outline-none"
           />
           <input
-            type="date"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-          />
-          <input
-            type="time"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-          />
-          <input
-            type="number"
-            placeholder="Number of Guests"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
+            type="password"
+            placeholder="Password"
+            className="w-full px-4 py-2 border border-gray-400 rounded outline-none"
           />
           <button
             type="submit"
-            className="bg-yellow-400 w-full py-2 rounded text-white font-bold hover:bg-yellow-500 cursor-pointer"
+            className="w-full bg-yellow-400 text-white py-2 rounded font-bold hover:bg-yellow-500"
             onClick={(e) => {
               e.preventDefault();
-              alert("Table booked successfully!");
-              setShowBooking(false);
+              alert("Signup submitted");
+              setShowSignup(false);
             }}
           >
-            Confirm Booking
+            Signup
           </button>
         </form>
-      </Modal> */}
+      </Modal>
     </>
   );
 };

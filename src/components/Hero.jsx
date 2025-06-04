@@ -39,6 +39,11 @@ const Hero = () => {
   const videoRef = useRef(null);
   const [status, setStatus] = useState('closed');
   const [showBookTable, setShowBookTable] = useState(false);
+  // Dummy user auth object (Replace this with your actual auth logic)
+const loggedInUser = JSON.parse(localStorage.getItem("user")) || {
+  name: "John Doe",
+  email: "john@example.com",
+};
 
   const checkBarStatus = () => {
     const now = new Date();
@@ -98,6 +103,32 @@ const Hero = () => {
       clearInterval(interval);
     };
   }, []);
+  const [formData, setFormData] = useState({
+  area: "",
+  date: "",
+  time: "",
+  guests: "",
+});
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({ ...prev, [name]: value }));
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const bookingData = {
+    ...formData,
+    name: loggedInUser.name,
+    email: loggedInUser.email,
+  };
+
+  // Replace this with real API call
+  console.log("Submitting Booking:", bookingData);
+  alert("Table booked successfully!");
+  setShowBookTable(false);
+};
 
   const renderStatusMessage = () => {
     switch (status) {
@@ -170,60 +201,65 @@ const Hero = () => {
         </button>
       </motion.div>
 
-      <Modal show={showBookTable} onClose={() => setShowBookTable(false)} title="Book a Table">
-        <form className="space-y-4">
-          <select className="w-full px-4 py-2 border border-gray-500 rounded outline-none" required>
-            <option value="">Select Area</option>
-            <option value="bar">Bar</option>
-            <option value="restaurant">Restaurant</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-            required
-          />
-          {/* Updated Date Input with min/max */}
-          <input
-            type="date"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-            required
-            min={getTodayDate()}
-            max={getMaxDate()}
-          />
-          {/* Updated Time Input with min/max */}
-          <input
-            type="time"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-            required
-            min={openingTime}
-            max={closingTime}
-          />
-          <input
-            type="number"
-            placeholder="Number of Guests"
-            className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
-            required
-          />
-          <button
-            type="submit"
-            className="bg-yellow-400 w-full py-2 rounded text-white font-bold hover:bg-yellow-500 cursor-pointer"
-            onClick={(e) => {
-              e.preventDefault();
-              alert("Table booked successfully!");
-              setShowBookTable(false);
-            }}
-          >
-            Confirm Booking
-          </button>
-        </form>
-      </Modal>
+      <Modal
+    show={showBookTable}
+    onClose={() => setShowBookTable(false)}
+    title="Book a Table"
+  >
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      <select
+        name="area"
+        required
+        className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
+        onChange={handleChange}
+        value={formData.area}
+      >
+        <option value="">Select Area</option>
+        <option value="bar">Bar</option>
+        <option value="restaurant">Restaurant</option>
+      </select>
+
+      {/* Name and Email hidden but still submitted */}
+      <input type="hidden" name="name" value={loggedInUser.name} />
+      <input type="hidden" name="email" value={loggedInUser.email} />
+
+      <input
+        type="date"
+        name="date"
+        required
+        min={getTodayDate()}
+        max={getMaxDate()}
+        onChange={handleChange}
+        value={formData.date}
+        className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
+      />
+      <input
+        type="time"
+        name="time"
+        required
+        min={openingTime}
+        max={closingTime}
+        onChange={handleChange}
+        value={formData.time}
+        className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
+      />
+      <input
+        type="number"
+        name="guests"
+        placeholder="Number of Guests"
+        required
+        onChange={handleChange}
+        value={formData.guests}
+        className="w-full px-4 py-2 border border-gray-500 rounded outline-none"
+      />
+      <button
+        type="submit"
+        className="bg-yellow-400 w-full py-2 rounded text-white font-bold hover:bg-yellow-500 cursor-pointer"
+      >
+        Confirm Booking
+      </button>
+    </form>
+  </Modal>
     </section>
   );
 };
